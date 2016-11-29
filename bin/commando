@@ -1,0 +1,26 @@
+#!/usr/bin/env php
+<?php
+
+date_default_timezone_set('UTC');
+
+$filename = __DIR__ . '/../vendor/autoload.php';
+if (!file_exists($filename)) {
+    $filename = __DIR__ . '/../../../autoload.php';
+}
+
+if (!file_exists($filename)) {
+    die(
+        'You must set up the project dependencies, run the following commands:' . PHP_EOL .
+        'curl -s http://getcomposer.org/installer | php' . PHP_EOL .
+        'php composer.phar install' . PHP_EOL
+    );
+}
+
+$loader = require $filename;
+
+use Symfony\Component\Console\Application;
+
+$application = new Application('Commando', '0.0.1');
+$application->setCatchExceptions(true);
+$application->add(new \Commando\Command\RunCommand());
+$application->run();

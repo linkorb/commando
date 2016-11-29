@@ -1,0 +1,44 @@
+<?php
+
+namespace Commando\ConfigLoader;
+
+use Commando\Commando;
+use Commando\Model\Command;
+use Commando\Model\CommandArgument;
+
+abstract class ArrayConfigLoader
+{
+    public function load($config)
+    {
+        $storeClass = "Commando\\JobStore\\" . $config['store']['type'] . "JobStore";
+        $store = new $storeClass($config['store']);
+        $commando = new Commando($store);
+        
+        foreach ($config['commands'] as $commandData) {
+            if (!isset($commandData['name'])) {
+                throw new RuntimeException("Missing required name for command");
+            }
+            $name = $commandData['name'];
+            $command = new Command($name);
+            if (!isset($commandData['template'])) {
+                throw new RuntimeException("Missing required template for command `" . $name . "`");
+            }
+            $command->setTemplate($commandData['template']);
+            if (isset($commandData['timeout'])) {
+                $command->setTimeout($commandData['timeout']);
+            }
+            
+            $arguments = [];
+            if (isset($commandData['arguments'])) {
+                foreach ($commandData['arguments'] as $argumentData) {
+                    $argument = new CommandArgument($argumentData['name']);
+                    $argument->setDefault($argumentData['default']);
+                    $command->addArgument($argument);
+                }
+            }
+            $commando->addCommand($command);
+        }
+        //print_r($commando);
+        return $commando;
+    }
+}

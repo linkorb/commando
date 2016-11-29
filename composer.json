@@ -1,0 +1,26 @@
+{
+    "name": "linkorb/commando",
+    "description": "Commando: Execute Commands from Queues",
+    "homepage": "https://github.com/linkorb/commando",
+    "keywords": ["commando", "git", "command", "queue", "linkorb"],
+    "type": "application",
+    "authors": [
+        {
+            "name": "LinkORB",
+            "email": "engineering@linkorb.com",
+            "role": "Development"
+        }
+    ],
+    "require": {
+        "symfony/console": "~2.7",
+        "zordius/lightncandy": "~0.93",
+        "symfony/yaml": "~2.7",
+        "symfony/process": "~2.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Commando\\": "src/"
+        }
+    },
+    "license": "MIT"
+}
