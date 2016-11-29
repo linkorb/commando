@@ -32,7 +32,12 @@ abstract class ArrayConfigLoader
             if (isset($commandData['arguments'])) {
                 foreach ($commandData['arguments'] as $argumentData) {
                     $argument = new CommandArgument($argumentData['name']);
-                    $argument->setDefault($argumentData['default']);
+                    if (isset($argumentData['default'])) {
+                        $argument->setDefault($argumentData['default']);
+                    }
+                    if (isset($argumentData['required'])) {
+                        $argument->setRequired($argumentData['required']);
+                    }
                     $command->addArgument($argument);
                 }
             }
