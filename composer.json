@@ -22,5 +22,6 @@
             "Commando\\": "src/"
         }
     },
+    "bin": ["bin/commando"],
     "license": "MIT"
 }
