@@ -10,9 +10,12 @@ abstract class ArrayConfigLoader
 {
     public function load($config)
     {
-        $storeClass = "Commando\\JobStore\\" . $config['store']['type'] . "JobStore";
-        $store = new $storeClass($config['store']);
-        $commando = new Commando($store);
+        $commando = new Commando();
+        if (isset($config['store'])) {
+            $storeClass = "Commando\\JobStore\\" . $config['store']['type'] . "JobStore";
+            $store = new $storeClass($config['store']);
+            $commando->setJobStore($store);
+        }
         
         foreach ($config['commands'] as $commandData) {
             if (!isset($commandData['name'])) {

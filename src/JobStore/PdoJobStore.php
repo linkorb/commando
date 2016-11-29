@@ -9,12 +9,23 @@ use RuntimeException;
 class PdoJobStore implements JobStoreInterface
 {
     protected $pdo;
-    protected $tablename = 'job';
+    protected $tablename = null;
     
     public function __construct($options)
     {
+        if (!isset($options['pdo'])) {
+            throw new RuntimeException("PDO not configured");
+        }
         $url = $options['pdo'];
-        $this->tablename = $options['tablename'];
+        if (isset($options['tablename'])) {
+            $this->tablename = $options['tablename'];
+        }
+        if (isset($options['job_tablename'])) {
+            $this->tablename = $options['job_tablename'];
+        }
+        if (!$this->tablename) {
+            throw new RuntimeException("Commando Job tablename not configured");
+        }
     
         $scheme = parse_url($url, PHP_URL_SCHEME);
         $user = parse_url($url, PHP_URL_USER);

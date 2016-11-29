@@ -15,10 +15,17 @@ class Commando
     protected $jobStore;
     protected $commands = [];
     
-    public function __construct(JobStoreInterface $jobStore)
+    public function getJobStore()
+    {
+        return $this->jobStore;
+    }
+    
+    public function setJobStore(JobStoreInterface $jobStore)
     {
         $this->jobStore = $jobStore;
+        return $this;
     }
+    
     
     public function addCommand(Command $command)
     {
@@ -40,6 +47,9 @@ class Commando
     
     public function run()
     {
+        if (!$this->jobStore) {
+            throw new RuntimeException("Commando JobStore not configured");
+        }
         $job = $this->jobStore->popJob();
         if (!$job) {
             return;
