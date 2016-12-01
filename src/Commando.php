@@ -55,7 +55,7 @@ class Commando
         while ($running) {
             $job = null;
             try {
-                echo "Popping a Job:\n";
+                //echo "Popping a Job:\n";
                 $job = $this->jobStore->popJob();
             } catch (\Exception $e) {
                 echo $e->getMessage() . "\n";
@@ -65,10 +65,10 @@ class Commando
             
             
             if (!$job) {
-                sleep(1);
+                sleep(2);
             } else {
                 try {
-                    echo "Running job " . $job->getId() . "\n";
+                    echo "Running job " . $job->getId() . " " . $job->getCommandName() . "\n";
                     $this->runJob($job);
                 } catch (\Exception $e) {
                     echo $e->getMessage() . "\n";
@@ -102,15 +102,35 @@ class Commando
         $process = new Process($line);
         $process->setTimeout($command->getTimeout());
         $process->setIdleTimeout($command->getTimeout());
+        $job->setStderr(null);
+        $job->setStdout(null);
+        $job->setExitCode(null);
+        $this->jobStore->updateJob($job);
 
         $job->setStartStamp(time());
-        $process->run();
+        $that = $this;
+        $process->run(function ($type, $buffer) use ($job, $process, $that) {
+            $lines = explode("\n", $buffer);
+            foreach ($lines as $line) {
+                if ($line) {
+                    $buffer = "[" . date('d/M/Y H:i:s') . " " . str_pad($job->getDuration(), 4, ' ', STR_PAD_LEFT) . "s] " . $line . "\n";
+                    if (Process::ERR === $type) {
+                        echo 'ERR > ' . $buffer;
+                        $job->setStderr($job->getStderr() . $buffer);
+                    } else {
+                        echo 'OUT > ' . $buffer;
+                        $job->setStdout($job->getStdout() . $buffer);
+                    }
+                }
+            }
+            $that->jobStore->updateJob($job);
+        });
+        
         $job->setEndStamp(time());
-
         $job->setStdout($process->getOutput());
         $job->setStderr($process->getErrorOutput());
         $job->setExitCode($process->getExitCode());
 
-        $this->jobStore->completeJob($job);
+        $this->jobStore->updateJob($job);
     }
 }

@@ -73,11 +73,11 @@ class Job
     
     public function getDuration()
     {
-        if (!$this->endStamp) {
-            return -1;
-        }
         if (!$this->startStamp) {
             return -1;
+        }
+        if (!$this->endStamp) {
+            return time() - (int)$this->startStamp;
         }
         return $this->endStamp - $this->startStamp;
     }

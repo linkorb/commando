@@ -93,9 +93,9 @@ class PdoJobStore implements JobStoreInterface
         return $job;
     }
 
-    public function completeJob(Job $job)
+    public function updateJob(Job $job)
     {
-        print_r($job);
+        //print_r($job);
         
         // Update job status to PROCESSING
         $sql = sprintf(
@@ -112,10 +112,13 @@ class PdoJobStore implements JobStoreInterface
         );
         
         $statement = $this->pdo->prepare($sql);
-        
-        $status = 'SUCCESS';
-        if ($job->getExitCode()!=0) {
-            $status = 'FAILURE';
+        if ($job->getExitCode()===null) {
+            $status = 'PROCESSING';
+        } else {
+            $status = 'SUCCESS';
+            if ($job->getExitCode()!=0) {
+                $status = 'FAILURE';
+            }
         }
         $statement->execute(
             [
@@ -129,7 +132,6 @@ class PdoJobStore implements JobStoreInterface
                 'stderr' => $job->getStderr()
             ]
         );
-        
         return true;
     }
 }
