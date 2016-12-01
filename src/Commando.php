@@ -50,11 +50,34 @@ class Commando
         if (!$this->jobStore) {
             throw new RuntimeException("Commando JobStore not configured");
         }
-        $job = $this->jobStore->popJob();
-        if (!$job) {
-            return;
+        
+        $running = true;
+        while ($running) {
+            $job = null;
+            try {
+                echo "Popping a Job:\n";
+                $job = $this->jobStore->popJob();
+            } catch (\Exception $e) {
+                echo $e->getMessage() . "\n";
+                sleep(4);
+            }
+            
+            
+            
+            if (!$job) {
+                sleep(1);
+            } else {
+                try {
+                    echo "Running job " . $job->getId() . "\n";
+                    $this->runJob($job);
+                } catch (\Exception $e) {
+                    echo $e->getMessage() . "\n";
+                    sleep(5);
+                }
+            }
+            
+            // loop!
         }
-        $this->runJob($job);
         return;
     }
     
