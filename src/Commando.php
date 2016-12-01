@@ -112,7 +112,7 @@ class Commando
         $process->run(function ($type, $buffer) use ($job, $process, $that) {
             $lines = explode("\n", $buffer);
             foreach ($lines as $line) {
-                if ($line) {
+                if ($line && ($line!="\n")) {
                     $buffer = "[" . date('d/M/Y H:i:s') . " " . str_pad($job->getDuration(), 4, ' ', STR_PAD_LEFT) . "s] " . $line . "\n";
                     if (Process::ERR === $type) {
                         echo 'ERR > ' . $buffer;
@@ -127,8 +127,6 @@ class Commando
         });
         
         $job->setEndStamp(time());
-        //$job->setStdout($process->getOutput());
-        //$job->setStderr($process->getErrorOutput());
         $job->setExitCode($process->getExitCode());
 
         $this->jobStore->updateJob($job);
