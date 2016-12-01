@@ -127,8 +127,8 @@ class Commando
         });
         
         $job->setEndStamp(time());
-        $job->setStdout($process->getOutput());
-        $job->setStderr($process->getErrorOutput());
+        //$job->setStdout($process->getOutput());
+        //$job->setStderr($process->getErrorOutput());
         $job->setExitCode($process->getExitCode());
 
         $this->jobStore->updateJob($job);
