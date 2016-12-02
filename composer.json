@@ -15,7 +15,8 @@
         "symfony/console": "~2.7",
         "zordius/lightncandy": "~0.93",
         "symfony/yaml": "~2.7",
-        "symfony/process": "~2.7"
+        "symfony/process": "~2.7",
+        "andrewfenn/pid-helper": "0.1.0"
     },
     "autoload": {
         "psr-4": {

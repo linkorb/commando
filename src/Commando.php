@@ -9,6 +9,7 @@ use RuntimeException;
 use LightnCandy\LightnCandy;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+use PidHelper\PidHelper;
 
 class Commando
 {
@@ -47,6 +48,11 @@ class Commando
     
     public function run()
     {
+        $pidHelper = new PidHelper('/tmp/', 'commando.pid');
+        if (!$pidHelper->lock()) {
+            exit("Commando is already running\n");
+        }
+        
         if (!$this->jobStore) {
             throw new RuntimeException("Commando JobStore not configured");
         }
@@ -62,8 +68,6 @@ class Commando
                 sleep(4);
             }
             
-            
-            
             if (!$job) {
                 sleep(2);
             } else {
@@ -75,9 +79,9 @@ class Commando
                     sleep(5);
                 }
             }
-            
             // loop!
         }
+        $pidHelper->unlock();
         return;
     }
     
@@ -112,7 +116,7 @@ class Commando
         $process->run(function ($type, $buffer) use ($job, $process, $that) {
             $lines = explode("\n", $buffer);
             foreach ($lines as $line) {
-                if ($line && ($line!="\n")) {
+                if ($line && (trim($line, " \n\r\t"))) {
                     $buffer = "[" . date('d/M/Y H:i:s') . " " . str_pad($job->getDuration(), 4, ' ', STR_PAD_LEFT) . "s] " . $line . "\n";
                     if (Process::ERR === $type) {
                         echo 'ERR > ' . $buffer;

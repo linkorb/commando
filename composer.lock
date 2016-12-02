@@ -4,9 +4,49 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "525c8d77f66c28dec222618e8242fbe3",
-    "content-hash": "6f5b3b72bd59410eb68d431cb571caa4",
+    "hash": "57b4a013e05c4f7ec485e28fd9c7d041",
+    "content-hash": "74c0eafc62e37439a4f9f9c8486784d9",
     "packages": [
+        {
+            "name": "andrewfenn/pid-helper",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/andrewfenn/pidhelper.git",
+                "reference": "407e3b4e0210929a95adf2262c6c3cd38c2dd5e4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/andrewfenn/pidhelper/zipball/407e3b4e0210929a95adf2262c6c3cd38c2dd5e4",
+                "reference": "407e3b4e0210929a95adf2262c6c3cd38c2dd5e4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PidHelper\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andrew Fenn",
+                    "homepage": "https://github.com/andrewfenn"
+                }
+            ],
+            "description": "A small helper class used to help you check if code is still running",
+            "keywords": [
+                "pid",
+                "process"
+            ],
+            "time": "2015-09-01 07:42:02"
+        },
         {
             "name": "psr/log",
             "version": "1.0.2",
