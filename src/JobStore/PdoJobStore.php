@@ -54,7 +54,8 @@ class PdoJobStore implements JobStoreInterface
         // safeguard against already processing or errored jobs?
         $sql = sprintf(
             "SELECT * FROM %s
-            WHERE status!='NEW' AND status!='SUCCESS' AND status!='SKIPPED'",
+            WHERE status!='NEW' AND status!='SUCCESS' AND status!='SKIPPED'
+            ORDER BY priority, id",
             $this->tablename
         );
         $statement = $this->pdo->prepare($sql);
@@ -66,7 +67,8 @@ class PdoJobStore implements JobStoreInterface
         
         $sql = sprintf(
             "SELECT * FROM %s WHERE status='NEW'
-            AND (isnull(scheduled_stamp) OR (scheduled_stamp<:now))",
+            AND (isnull(scheduled_stamp) OR (scheduled_stamp<:now))
+            ORDER BY priority, id",
             $this->tablename
         );
         $statement = $this->pdo->prepare($sql);
