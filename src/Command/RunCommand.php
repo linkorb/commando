@@ -10,7 +10,9 @@ use Symfony\Component\Console\Input\InputOption;
 use RuntimeException;
 use Commando\ConfigLoader\JsonConfigLoader;
 use Commando\ConfigLoader\YamlConfigLoader;
+use Commando\Event\HipChatSubscriber;
 use Symfony\Component\Yaml\Yaml;
+use HipChat\HipChat;
 
 class RunCommand extends Command
 {
@@ -66,6 +68,16 @@ class RunCommand extends Command
                 $storeClass = "Commando\\JobStore\\PdoJobStore";
                 $store = new $storeClass($config['parameters']);
                 $commando->setJobStore($store);
+                if (isset($config['parameters']['hipchat_token'])) {
+                    $token = $config['parameters']['hipchat_token'];
+                    $roomId = $config['parameters']['hipchat_room_id'];
+                    $mentions = $config['parameters']['hipchat_mentions'];
+                    $name = $config['parameters']['hipchat_name'];
+                    
+                    $hipChat = new HipChat($token);
+                    $hipChatSubscriber = new HipChatSubscriber($hipChat, $roomId, $mentions, $name);
+                    $commando->getDispatcher()->addSubscriber($hipChatSubscriber);
+                }
             }
         }
         

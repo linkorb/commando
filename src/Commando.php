@@ -10,12 +10,31 @@ use LightnCandy\LightnCandy;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use PidHelper\PidHelper;
+use HipChat\HipChat;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Commando
 {
     protected $jobStore;
     protected $commands = [];
+    protected $hipChat = null;
+    protected $dispatcher;
     
+    public function __construct()
+    {
+        $this->dispatcher = new EventDispatcher();
+    }
+    
+    public function getDispatcher()
+    {
+        return $this->dispatcher;
+    }
+    
+    public function setHipChat(HipChat $hipChat)
+    {
+        $this->hipChat = $hipChat;
+    }
     public function getJobStore()
     {
         return $this->jobStore;
@@ -48,11 +67,16 @@ class Commando
     
     public function run()
     {
+        
         $pidHelper = new PidHelper('/tmp/', 'commando.pid');
         if (!$pidHelper->lock()) {
             exit("Commando is already running\n");
         }
-        
+
+        $event = new GenericEvent(null, []);
+        $this->getDispatcher()->dispatch('commando.run', $event);
+
+
         if (!$this->jobStore) {
             throw new RuntimeException("Commando JobStore not configured");
         }
@@ -64,17 +88,35 @@ class Commando
                 //echo "Popping a Job:\n";
                 $job = $this->jobStore->popJob();
             } catch (\Exception $e) {
+                $event = new GenericEvent(null, ['message' => $e->getMessage()]);
+                $this->getDispatcher()->dispatch('commando.error', $event);
+
                 echo $e->getMessage() . "\n";
-                sleep(4);
+                sleep(20);
             }
             
             if (!$job) {
                 sleep(2);
             } else {
                 try {
-                    echo "Running job " . $job->getId() . " " . $job->getCommandName() . "\n";
+                    echo "Starting job " . $job->getId() . " " . $job->getCommandName() . "\n";
+                    $event = new GenericEvent($job, []);
+                    $this->getDispatcher()->dispatch('job.start', $event);
+                    
                     $this->runJob($job);
+                    if ($job->getExitCode()==0) {
+                        echo "Success: job " . $job->getId() . "\n";
+                        $event = new GenericEvent($job, []);
+                        $this->getDispatcher()->dispatch('job.success', $event);
+                    } else {
+                        echo "Error: job " . $job->getId() . "\n";
+                        $event = new GenericEvent($job, []);
+                        $this->getDispatcher()->dispatch('job.error', $event);
+                    }
                 } catch (\Exception $e) {
+                    $event = new GenericEvent($job, ['message' => $e->getMessage()]);
+                    $this->getDispatcher()->dispatch('job.exception', $event);
+                    
                     echo $e->getMessage() . "\n";
                     sleep(5);
                 }

@@ -9,7 +9,7 @@ class Command
     protected $name;
     protected $arguments = [];
     protected $template;
-    protected $timeout = 60*10;
+    protected $timeout = 60*45;
     
     public function __construct($name)
     {

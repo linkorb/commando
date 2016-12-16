@@ -16,7 +16,9 @@
         "zordius/lightncandy": "~0.93",
         "symfony/yaml": "~2.7",
         "symfony/process": "~2.7",
-        "andrewfenn/pid-helper": "0.1.0"
+        "andrewfenn/pid-helper": "0.1.0",
+        "hipchat/hipchat-php": "~1.0",
+        "symfony/event-dispatcher": "~2.7"
     },
     "autoload": {
         "psr-4": {
