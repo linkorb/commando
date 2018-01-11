@@ -10,7 +10,7 @@ class PdoJobStore implements JobStoreInterface
 {
     protected $pdo;
     protected $tablename = null;
-    
+
     public function __construct($options)
     {
         if (!isset($options['pdo'])) {
@@ -26,7 +26,7 @@ class PdoJobStore implements JobStoreInterface
         if (!$this->tablename) {
             throw new RuntimeException("Commando Job tablename not configured");
         }
-    
+
         $scheme = parse_url($url, PHP_URL_SCHEME);
         $user = parse_url($url, PHP_URL_USER);
         $pass = parse_url($url, PHP_URL_PASS);
@@ -47,14 +47,22 @@ class PdoJobStore implements JobStoreInterface
         $this->pdo = new PDO($dsn, $user, $pass);
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
-    
+
     public function popJob()
     {
-        
+        // switch all PROCESSING jobs to FAILURE
+        $sql = sprintf(
+            "UPDATE %s SET status='FAILURE' WHERE status='PROCESSING'",
+            $this->tablename
+        );
+
+        // TODO: update NEW jobs with related FAILURE jobs (by group_key) to SKIPPED
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute([]);
         // safeguard against already processing or errored jobs?
         $sql = sprintf(
             "SELECT * FROM %s
-            WHERE status!='NEW' AND status!='SUCCESS' AND status!='SKIPPED'
+            WHERE status!='NEW' AND status!='SUCCESS' AND status!='SKIPPED' AND status!='FAILURE'
             ORDER BY priority, id",
             $this->tablename
         );
@@ -64,7 +72,7 @@ class PdoJobStore implements JobStoreInterface
         if ($row) {
             throw new RuntimeException("Jobs in unknown status: " . $row['status']);
         }
-        
+
         $sql = sprintf(
             "SELECT * FROM %s WHERE status='NEW'
             AND (isnull(scheduled_stamp) OR (scheduled_stamp<:now))
@@ -81,9 +89,9 @@ class PdoJobStore implements JobStoreInterface
         if (!$row) {
             return;
         }
-        
-        
-        
+
+
+
         // Update job status to PROCESSING
         $sql = sprintf(
             "UPDATE %s SET status='PROCESSING' WHERE id=:id",
@@ -91,7 +99,7 @@ class PdoJobStore implements JobStoreInterface
         );
         $statement = $this->pdo->prepare($sql);
         $statement->execute(['id' => $row['id']]);
-        
+
         //print_r($row);
         $job = new Job();
         $job->setId($row['id']);
@@ -104,7 +112,7 @@ class PdoJobStore implements JobStoreInterface
     public function updateJob(Job $job)
     {
         //print_r($job);
-        
+
         // Update job status to PROCESSING
         $sql = sprintf(
             "UPDATE %s SET
@@ -118,7 +126,7 @@ class PdoJobStore implements JobStoreInterface
             WHERE id=:id",
             $this->tablename
         );
-        
+
         $statement = $this->pdo->prepare($sql);
         if ($job->getExitCode()===null) {
             $status = 'PROCESSING';
