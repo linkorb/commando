@@ -18,7 +18,8 @@
         "symfony/process": "~2.7",
         "andrewfenn/pid-helper": "0.1.0",
         "hipchat/hipchat-php": "~1.0",
-        "symfony/event-dispatcher": "~2.7"
+        "symfony/event-dispatcher": "~2.7",
+        "maknz/slack": "^1.7"
     },
     "autoload": {
         "psr-4": {
