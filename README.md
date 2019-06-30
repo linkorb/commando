@@ -40,7 +40,7 @@ start/end times, total duration, and stdout and stderr
 
 * `JsonDirJobStore`: Manages jobs through json files with a simple directory structure
 * `PdoJobStore`: Manages jobs through a database table
-
+* `CamundaJobStore`: Camunda External Task client
 
 ## Use-cases
 
