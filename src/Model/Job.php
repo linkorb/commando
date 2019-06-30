@@ -6,7 +6,7 @@ class Job
 {
     protected $id;
     protected $commandName;
-    protected $arguments = [];
+    protected $inputs = [];
     
     protected $startStamp;
     protected $endStamp;
@@ -38,14 +38,14 @@ class Job
         return $this;
     }
     
-    public function getArguments()
+    public function getInputs()
     {
-        return $this->arguments;
+        return $this->inputs;
     }
     
-    public function setArguments($arguments)
+    public function setInput(string $name, $value)
     {
-        $this->arguments = $arguments;
+        $this->inputs[$name] = $value;
         return $this;
     }
     

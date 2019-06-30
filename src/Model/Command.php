@@ -7,7 +7,7 @@ use Commando\Model\CommandArgument;
 class Command
 {
     protected $name;
-    protected $arguments = [];
+    protected $inputs = [];
     protected $template;
     protected $timeout = 60*45;
     
@@ -32,14 +32,14 @@ class Command
         return $this;
     }
     
-    public function getArguments()
+    public function getInputs(): array
     {
-        return $this->arguments;
+        return $this->inputs;
     }
     
-    public function addArgument(CommandArgument $arguments)
+    public function addInput(CommandInput $input)
     {
-        $this->arguments = $arguments;
+        $this->inputs[$input->getName()] = $input;
         return $this;
     }
     

@@ -51,11 +51,11 @@ class CamundaJobStore implements JobStoreInterface
                 $job = new Job();
                 $job->setId($row['id']);
                 $job->setCommandName($row['topicName']);
-                $arguments = [];
+                $inputs = [];
                 foreach ($row['variables'] as $name => $v) {
-                    $arguments[$name] = $v['value'];
+                    $job->setInput($name, $v['value'] ?? null);
                 }
-                $job->setArguments($arguments);
+
                 // print_r($job);
                 
                 return $job;

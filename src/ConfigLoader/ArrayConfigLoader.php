@@ -4,7 +4,7 @@ namespace Commando\ConfigLoader;
 
 use Commando\Commando;
 use Commando\Model\Command;
-use Commando\Model\CommandArgument;
+use Commando\Model\CommandInput;
 use RuntimeException;
 
 abstract class ArrayConfigLoader
@@ -30,19 +30,20 @@ abstract class ArrayConfigLoader
             if (isset($commandData['timeout'])) {
                 $command->setTimeout($commandData['timeout']);
             }
-            
-            $arguments = [];
-            if (isset($commandData['arguments'])) {
-                foreach ($commandData['arguments'] as $argumentData) {
-                    $argument = new CommandArgument($argumentData['name']);
-                    if (isset($argumentData['default'])) {
-                        $argument->setDefault($argumentData['default']);
-                    }
-                    if (isset($argumentData['required'])) {
-                        $argument->setRequired($argumentData['required']);
-                    }
-                    $command->addArgument($argument);
+            $inputsConfig = $commandData['inputs'] ?? $commandData['arguments'] ?? [];
+
+            foreach ($inputsConfig as $inputName => $inputData) {
+                if (isset($inputData['name'])) {
+                    $inputName = $inputData['name'];
                 }
+                $input = new CommandInput($inputName);
+                if (isset($inputData['default'])) {
+                    $input->setDefault($inputData['default']);
+                }
+                if (isset($inputData['required'])) {
+                    $inputData->setRequired($inputData['required']);
+                }
+                $command->addInput($input);
             }
             $commando->addCommand($command);
         }

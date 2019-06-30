@@ -140,7 +140,7 @@ class Commando
         );
         $renderer = LightnCandy::prepare($php);
         //TODO: handle undefined/default variables?
-        $line = $renderer($job->getArguments());
+        $line = $renderer($job->getInputs());
         
         //echo "TEMPLATE: $template\n";
         //echo "RUNNING: $line\n";

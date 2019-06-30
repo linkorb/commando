@@ -2,19 +2,18 @@
 
 namespace Commando\Model;
 
-class CommandArgument
+class CommandInput
 {
     protected $name;
     protected $default = null;
     protected $required = true;
     
-    
-    public function __construct($name)
+    public function __construct(string $name)
     {
         $this->name = $name;
     }
     
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -30,12 +29,12 @@ class CommandArgument
         return $this;
     }
     
-    public function getRequired()
+    public function getRequired(): bool
     {
         return $this->required;
     }
     
-    public function setRequired($required)
+    public function setRequired(bool $required)
     {
         $this->required = $required;
         return $this;

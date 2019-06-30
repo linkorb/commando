@@ -99,8 +99,12 @@ class PdoJobStore implements JobStoreInterface
         $job = new Job();
         $job->setId($row['id']);
         $job->setCommandName($row['command']);
-        $arguments = json_decode($row['arguments'], true);
-        $job->setArguments($arguments);
+
+        $inputs = $row['inputs'] ?? $row['arguments'] ?? [];
+        $inputs = json_decode($inputs, true);
+        foreach ($inputs as $name=>$value) {
+            $job->setInput($name, $value);
+        }
         return $job;
     }
 
