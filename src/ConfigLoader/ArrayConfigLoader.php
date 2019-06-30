@@ -13,7 +13,7 @@ abstract class ArrayConfigLoader
         $commando = new Commando();
         if (isset($config['store'])) {
             $storeClass = "Commando\\JobStore\\" . $config['store']['type'] . "JobStore";
-            $store = new $storeClass($config['store']);
+            $store = new $storeClass($config['store']['options'] ?? []);
             $commando->setJobStore($store);
         }
         
