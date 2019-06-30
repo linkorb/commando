@@ -72,8 +72,8 @@ class JsonDirJobStore implements JobStoreInterface
         $data = [
             'id' => $job->getId(),
             
-            'start_stamp' => $job->getStartStamp(),
-            'end_stamp' => $job->getEndStamp(),
+            'startStamp' => $job->getStartStamp(),
+            'endStamp' => $job->getEndStamp(),
             'duration' => $job->getDuration(),
             
             'statusCode' => $job->getExitCode(),
