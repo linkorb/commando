@@ -2,7 +2,13 @@
     "name": "linkorb/commando",
     "description": "Commando: Execute Commands from Queues",
     "homepage": "https://github.com/linkorb/commando",
-    "keywords": ["commando", "git", "command", "queue", "linkorb"],
+    "keywords": [
+        "commando",
+        "git",
+        "command",
+        "queue",
+        "linkorb"
+    ],
     "type": "application",
     "authors": [
         {
@@ -29,6 +35,9 @@
             "Commando\\": "src/"
         }
     },
-    "bin": ["bin/commando"],
-    "license": "MIT"
+    "bin": [
+        "bin/commando"
+    ],
+    "license": "MIT",
+    "version": "1.10.0"
 }
