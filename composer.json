@@ -19,7 +19,10 @@
         "andrewfenn/pid-helper": "0.1.0",
         "hipchat/hipchat-php": "~1.0",
         "symfony/event-dispatcher": "~2.7",
-        "maknz/slack": "^1.7"
+        "maknz/slack": "^1.7",
+        "symfony/http-client": "^4.3",
+        "psr/http-client": "^1.0",
+        "nyholm/psr7": "^1.1"
     },
     "autoload": {
         "psr-4": {
