@@ -8,7 +8,7 @@ use Commando\Model\CommandArgument;
 
 abstract class ArrayConfigLoader
 {
-    public function load($config)
+    public function load(array $config)
     {
         $commando = new Commando();
         if (isset($config['store'])) {
