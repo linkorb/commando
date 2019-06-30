@@ -14,19 +14,17 @@ An example workflow:
 
 ```yml
 commands:
-  -
-    name: hello
+  hello:
     template: echo "Hello {{ greeted }}"
-    arguments:
-      -
-        name: greeted
+    inputs:
+      greeted:
         default: world
 ```
 2. Your app writes a job into `/your/commando-path/new` called `1.json`:
 ```json
 {
   "command": "hello",
-  "arguments": {
+  "inputs": {
     "greeted": "universe"
   }
 }
