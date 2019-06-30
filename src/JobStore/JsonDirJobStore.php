@@ -35,7 +35,7 @@ class JsonDirJobStore implements JobStoreInterface
         $this->jobLoader = new JsonJobLoader();
     }
     
-    public function popJob()
+    public function popJob(): ?Job
     {
         $filenames = glob($this->path . '/new/*.json');
         foreach ($filenames as $filename) {
