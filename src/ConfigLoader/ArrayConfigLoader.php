@@ -5,6 +5,7 @@ namespace Commando\ConfigLoader;
 use Commando\Commando;
 use Commando\Model\Command;
 use Commando\Model\CommandArgument;
+use RuntimeException;
 
 abstract class ArrayConfigLoader
 {
@@ -17,12 +18,11 @@ abstract class ArrayConfigLoader
             $commando->setJobStore($store);
         }
         
-        foreach ($config['commands'] as $commandData) {
-            if (!isset($commandData['name'])) {
-                throw new RuntimeException("Missing required name for command");
+        foreach ($config['commands'] as $commandName => $commandData) {
+            if (isset($commandData['name'])) {
+                $commandName = $commandData['name'];
             }
-            $name = $commandData['name'];
-            $command = new Command($name);
+            $command = new Command($commandName);
             if (!isset($commandData['template'])) {
                 throw new RuntimeException("Missing required template for command `" . $name . "`");
             }
