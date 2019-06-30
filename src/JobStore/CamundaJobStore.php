@@ -66,7 +66,7 @@ class CamundaJobStore implements JobStoreInterface
         return null;
     }
 
-    public function updateJob(Job $job)
+    public function updateJob(Job $job): void
     {
         if ($job->getExitCode() === null) {
             // Job not yet finished
@@ -96,7 +96,7 @@ class CamundaJobStore implements JobStoreInterface
             // echo "Reporting failure\n";
             $res = $this->request('POST', '/external-task/' . $job->getId() . '/failure', $body);
         }
-        return true;
+        return;
     }
 
     private function request(string $method, string $url, array $data = []): ?array

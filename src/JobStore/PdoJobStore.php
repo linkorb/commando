@@ -17,12 +17,7 @@ class PdoJobStore implements JobStoreInterface
             throw new RuntimeException("PDO not configured");
         }
         $url = $options['pdo'];
-        if (isset($options['tablename'])) {
-            $this->tablename = $options['tablename'];
-        }
-        if (isset($options['job_tablename'])) {
-            $this->tablename = $options['job_tablename'];
-        }
+        $this->tablename = $options['tablename'] ?? null;
         if (!$this->tablename) {
             throw new RuntimeException("Commando Job tablename not configured");
         }
@@ -48,7 +43,7 @@ class PdoJobStore implements JobStoreInterface
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
-    public function popJob()
+    public function popJob(): ?Job
     {
         // switch all PROCESSING jobs to FAILURE
         $sql = sprintf(
@@ -87,7 +82,7 @@ class PdoJobStore implements JobStoreInterface
         );
         $row = $statement->fetch(PDO::FETCH_ASSOC);
         if (!$row) {
-            return;
+            return null;
         }
 
 
@@ -109,7 +104,7 @@ class PdoJobStore implements JobStoreInterface
         return $job;
     }
 
-    public function updateJob(Job $job)
+    public function updateJob(Job $job): void
     {
         //print_r($job);
 
@@ -148,6 +143,6 @@ class PdoJobStore implements JobStoreInterface
                 'stderr' => $job->getStderr()
             ]
         );
-        return true;
+        return;
     }
 }
