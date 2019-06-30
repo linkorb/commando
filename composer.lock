@@ -1201,5 +1201,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "version": "1.10.0"
+    "version": "1.11.0"
 }

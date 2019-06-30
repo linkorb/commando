@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.11.0](https://github.com/linkorb/commando/compare/v1.10.0...v1.11.0) (2019-06-30)
+
+
+### Bug Fixes
+
+* add typehint ([b817736](https://github.com/linkorb/commando/commit/b817736))
+
+
+### Features
+
+* allow passing command names both as keys and attributes ([d712fb6](https://github.com/linkorb/commando/commit/d712fb6))
+
+
+### Refactoring
+
+* arguments -> inputs ([0ab5424](https://github.com/linkorb/commando/commit/0ab5424))
+* return type hinting ([01bf3d5](https://github.com/linkorb/commando/commit/01bf3d5))
+
+
+
 ## [1.10.0](https://github.com/linkorb/commando/compare/v1.9.0...v1.10.0) (2019-06-30)
 
 
