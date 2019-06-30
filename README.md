@@ -60,6 +60,18 @@ Examples:
 * Process uploaded image files
 * ...etc
 
+## Conventional Commits
+
+This repository is using [Conventional Commits](https://www.conventionalcommits.org/)
+
+Please run `npm install` at least once, in order to install the appropriate tooling and git hooks (this helps you to follow the conventions by linting them before actually committing).
+
+In short: you should prefix your commit titles with the correct type (i.e. `feat: my new cool feature`). This helps to create clear commit histories, automatically handles semver, tagging and CHANGELOG.md generation.
+
+If you'd like to reference a card in our planning system, simply add a `#123` to the end of your commit title. The card will be correctly linked from the changelogs etc.
+
+To publish a new release, simply run `npm run publish`. This will update the changelog, and manifests like composer.json, package.json, etc to a new tag. The tag follows Semver, and is selected based on your commit types since the last release.
+
 ## License
 
 Please refer to the included LICENSE.md file
