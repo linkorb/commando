@@ -14,7 +14,7 @@
      }
   },
   "scripts": {
-    "push": "git push --follow-tags origin master && npm publish",
+    "push": "git push --follow-tags origin master",
     "release": "standard-version",
     "publish": "standard-version && git push --follow-tags origin master"
   }
