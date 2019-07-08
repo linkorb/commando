@@ -10,7 +10,6 @@ use LightnCandy\LightnCandy;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use PidHelper\PidHelper;
-use HipChat\HipChat;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -18,7 +17,6 @@ class Commando
 {
     protected $jobStore;
     protected $commands = [];
-    protected $hipChat = null;
     protected $dispatcher;
     
     public function __construct()
@@ -31,10 +29,6 @@ class Commando
         return $this->dispatcher;
     }
     
-    public function setHipChat(HipChat $hipChat)
-    {
-        $this->hipChat = $hipChat;
-    }
     public function getJobStore()
     {
         return $this->jobStore;
@@ -129,6 +123,8 @@ class Commando
     
     public function runJob(Job $job)
     {
+        echo "Running job" . PHP_EOL;
+        print_r($job);
         $command = $this->getCommand($job->getCommandName());
 
         $template = $command->getTemplate();
@@ -174,6 +170,9 @@ class Commando
         
         $job->setEndStamp(time());
         $job->setExitCode($process->getExitCode());
+
+        echo "Updating job" . PHP_EOL;
+        print_r($job);
 
         $this->jobStore->updateJob($job);
     }
