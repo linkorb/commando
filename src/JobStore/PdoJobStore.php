@@ -77,7 +77,7 @@ class PdoJobStore implements JobStoreInterface
         $statement = $this->pdo->prepare($sql);
         $statement->execute(
             [
-                'now' => time()+(60*60)
+                'now' => time()
             ]
         );
         $row = $statement->fetch(PDO::FETCH_ASSOC);
@@ -99,7 +99,7 @@ class PdoJobStore implements JobStoreInterface
         $job = new Job();
         $job->setId($row['id']);
         $job->setCommandName($row['command']);
-
+        
         $inputs = $row['inputs'] ?? $row['arguments'] ?? [];
         $inputs = json_decode($inputs, true);
         foreach ($inputs as $name=>$value) {
