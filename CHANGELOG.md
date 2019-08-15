@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.11.1](https://github.com/linkorb/commando/compare/v1.11.0...v1.11.1) (2019-08-15)
+
+
+### Bug Fixes
+
+* remove direct hipchat methods (now uses events instead) ([d209fe3](https://github.com/linkorb/commando/commit/d209fe3))
+* remove invalid solution to timezones ([01c438e](https://github.com/linkorb/commando/commit/01c438e))
+
+
+### Documentation
+
+* list camunda in README and composer.json ([62c5233](https://github.com/linkorb/commando/commit/62c5233))
+* update examples ([86c0d67](https://github.com/linkorb/commando/commit/86c0d67))
+
+
+
 ## [1.11.0](https://github.com/linkorb/commando/compare/v1.10.0...v1.11.0) (2019-06-30)
 
 

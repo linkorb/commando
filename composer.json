@@ -29,7 +29,8 @@
         "maknz/slack": "^1.7",
         "symfony/http-client": "^4.3",
         "psr/http-client": "^1.0",
-        "nyholm/psr7": "^1.1"
+        "nyholm/psr7": "^1.1",
+        "linkorb/autotune": "^1.2"
     },
     "autoload": {
         "psr-4": {
@@ -40,5 +41,5 @@
         "bin/commando"
     ],
     "license": "MIT",
-    "version": "1.11.0"
+    "version": "1.11.1"
 }
