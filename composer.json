@@ -19,10 +19,10 @@
         }
     ],
     "require": {
-        "symfony/console": "~2.7",
+        "symfony/console": "^4.0|^3.0|^2.7",
         "zordius/lightncandy": "~0.93",
-        "symfony/yaml": "~2.7",
-        "symfony/process": "~2.7",
+        "symfony/yaml": "^4.0|^3.0|^2.7",
+        "symfony/process": "^4.0|^3.0|^2.7",
         "andrewfenn/pid-helper": "0.1.0",
         "hipchat/hipchat-php": "~1.0",
         "symfony/event-dispatcher": "~2.7",
