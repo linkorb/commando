@@ -19,13 +19,13 @@
         }
     ],
     "require": {
-        "symfony/console": "^4.0|^3.0|^2.7",
+        "symfony/console": "^2.7|^3.0|^4.0",
         "zordius/lightncandy": "~0.93",
-        "symfony/yaml": "^4.0|^3.0|^2.7",
-        "symfony/process": "^4.0|^3.0|^2.7",
+        "symfony/yaml": "^2.7|^3.0|^4.0",
+        "symfony/process": "^2.7|^3.0|^4.0",
         "andrewfenn/pid-helper": "0.1.0",
-        "hipchat/hipchat-php": "~1.0",
-        "symfony/event-dispatcher": "~2.7",
+        "hipchat/hipchat-php": "^1.0",
+        "symfony/event-dispatcher": "^2.7|^3.0|^4.0",
         "maknz/slack": "^1.7",
         "symfony/http-client": "^4.3",
         "psr/http-client": "^1.0",
@@ -40,6 +40,5 @@
     "bin": [
         "bin/commando"
     ],
-    "license": "MIT",
-    "version": "1.11.1"
+    "license": "MIT"
 }
